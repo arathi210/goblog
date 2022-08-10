@@ -1,0 +1,124 @@
+{{ define "Index" }}
+  {{ template "Header" }}
+    {{ template "Menu"  }}
+
+<style>
+
+      .col-md-12 {
+
+          max-width: 80%;
+
+      }
+
+      input#exampleCheck1 {
+
+          margin-left: 28px;
+
+      }
+</style>
+
+<div class="content-wrapper">
+
+    <!-- Content Header (Page header) -->
+
+    <div class="content-header">
+
+      <div class="container-fluid">
+
+        <div class="row mb-2">
+
+          <div class="col-sm-6" style="max-width: 30%;">
+
+            <h1 class="m-0 text-dark">Blog List</h1>
+
+          </div><!-- /.col -->
+
+          <div class="col-sm-6">
+
+            <ol class="breadcrumb float-sm-right">
+
+              <li class="breadcrumb-item"><a href="">Home</a></li>
+
+              <li class="breadcrumb-item active">Blog List</li>
+
+            </ol>
+
+          </div><!-- /.col -->
+
+         <div class="create-ct">
+
+          <a href="/new"><button type="button" class="btn btn-block btn-primary btn-sm">New Blog</button></a>
+
+          </div>
+
+        </div><!-- /.row -->
+
+      </div><!-- /.container-fluid -->
+
+    </div>
+
+
+    <section class="content">
+
+      <div class="container-fluid">
+
+      <div class="row">
+
+      <div class="col-12">
+
+          <div class="card">
+
+            
+
+            <!-- /.card-header -->
+
+            <div class="card-body">
+            <div class="table-responsive">
+     <!--        <div class="search_filter">
+                    <form class="form-inline" >
+
+                        <input class="form-control form-control-sm ml-3 w-75" type="text" id="searchTransaction" placeholder="search" aria-label="Search">
+                        <i class="fa fa-search" aria-hidden="true"></i>
+                    </form>
+                </div> -->
+
+                  <table id="adminaddbannertbl" class="table table-bordered table-hover">
+                    <thead>
+                          <tr>
+                            <td>ID</td>
+                            <td>Title</td>
+                            <td>Desciption</td>
+                            <td>Province</td>
+                            <td>Image</td>
+                            <td>View</td>
+                            <td>Edit</td>
+                            <td>Delete</td>
+                          </tr>
+                    </thead>
+                    <tbody>
+                      {{ range . }}
+                        <tr>
+                          <td>{{ .Id }}</td>
+                          <td> {{ .Name }} </td>
+                          <td>{{ .City }} </td> 
+                          <td>{{ .Province }} </td> 
+                          <td> <img src={{ .Image }}  height="50px" width="50px"/> </td> 
+                          <td><a href="/show?id={{ .Id }}">View</a></td>
+                          <td><a href="/edit?id={{ .Id }}">Edit</a></td>
+                          <td><a href="/delete?id={{ .Id }}">Delete</a></td>
+                        </tr>
+                      {{ end }}
+                        </tbody>
+                  </table>
+              
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  {{ template "Footer" }}
+{{ end }}

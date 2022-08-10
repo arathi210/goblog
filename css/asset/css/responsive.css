@@ -1,0 +1,355 @@
+@media only screen and (max-width: 767px){
+
+.list{
+	padding-left: 0px;
+    padding-right: 0px;
+}
+.view_map{
+	text-align: left !important;
+}
+.view_content{
+	padding-left: 0px;
+    padding-right: 0px;
+}
+.view_roomsdetails{
+	padding-left: 18px !important;
+	text-align: left !important;
+}
+.cls_title{
+	text-align: center;
+}
+.cls_price{
+	text-align: center;
+    float: unset !important;
+}
+.hold{
+	display: none !important;
+}
+.side_banner{
+	display: none;
+}
+/*.dynamiclbanner img{
+width: 332px;
+    height: 332px;}*/
+.clsads{
+padding-right: 0px !important;
+padding-left: 0px !important;
+}
+}
+
+@media only screen and (min-width: 1281px){ 
+
+/*	.dynamichbanner .owl-item {
+    width: 926px !important;
+}*/
+.side_banner .owl-item{
+	width: 326px;
+	
+}
+.side_banner .owl-carousel{
+	width: 326px !important;
+	margin-bottom: 15px;	
+}
+.lato-16-reg{
+	    margin-right: 4px;
+}
+.dynamiclbanner .owl-item{
+	width: 878px !important;
+
+}
+.dynamichbanner, .dynamiclbanner{
+	height: 325px;
+}
+.dynamiclbanner .owl-item{
+	width: 877px !important;
+
+}
+.clsads{
+padding-right: 40px !important;
+}
+
+
+}
+
+
+@media only screen and (max-width: 991px) {
+
+.col-12.col-sm-12.col-md-12.col-lg-4.text-center.my-auto.p-0 img {
+/*width: 300px;*/
+margin: 0px auto;
+}
+
+.card.mx-auto.d-block.dynamicsad img {
+width: 300px;
+margin: 0px auto;
+}
+
+.card.mx-auto.d-block.dynamicsad {
+padding: 10px 0px;
+}
+
+}
+
+
+@media only screen and (max-width: 600px) {
+
+.card.mb-3.mt-0 {height:auto;}
+
+}
+
+
+@media only screen and (max-width: 320px) {
+
+.lato-14-bold {
+font-size: 12px;
+}
+
+}
+
+@media only screen and (max-width: 1200px) {
+
+.side_banner .row.owl-carousel.owl-theme.owl-loaded.owl-drag {
+margin-bottom: 20px;
+}
+
+.side_banner .no-js .owl-carousel, .owl-carousel.owl-loaded {
+display: block;
+margin-right: 0px;
+margin-left: 0px;
+}
+
+}
+
+@media only screen and (max-width: 320px){
+.clsads{
+padding-right: 0px !important;
+padding-left: 0px !important;
+}
+
+}
+/*For Mobile:*/
+@media only screen and (max-width: 767px){
+.login_btn_web{display: none !important;}
+.login_btn_mbl{display: block;}
+
+.w3-drop-section.login_btn_mbl, .mbl_login_btn {
+    margin-left: unset !important;
+    display: flex !important;
+    margin: 15px auto 0px auto !important;
+}
+.login_btn_mbl a{
+	width: 100%;
+}
+.mbl_padding{
+	padding-left: 0px !important;
+	padding-right: 0px !important;
+}
+.exp_back , .exp_bread{	
+		width: auto;
+		padding-right: 0px;
+    padding-left: 0px;
+    
+}
+.exp_back{
+margin-left: 13px;}
+.expand {
+padding-bottom: 0px;
+}
+/*#mobile{
+	display: block;
+}
+#desktop{
+	display: none;
+
+}*/
+.text-right {
+    text-align: center !important;
+}
+}
+/*For above Mobile:*/
+@media only screen and (min-width: 768px){
+/*#mobile{
+	display: none;
+}
+#desktop{
+	display: block;
+
+}*/
+}
+/*Only 320*/
+@media (max-width: 320px) {
+   .business_phn {
+     padding-right: 0px !important;
+     padding-left: 0px !important;
+   }
+   .business_web{
+   	padding-right: 0px !important;
+     padding-left: 7px !important;
+   }
+   .col-12.col-sm-12.col-md-12.col-lg-4.text-center.my-auto.p-0 {
+    /*padding-left: 13px !important;*/
+}
+.l-ads{
+	padding: 0px;
+}
+.ladslist{
+	margin-right: 0px !important;
+	margin-left: 0px !important;
+}
+.lbanner_img{
+	width: 240px !important;
+}
+.poppins-18-bold {  
+    font-size: 17px;
+}
+.exp_back{
+	padding-right: 0px !important;
+		width: auto;
+	padding-left: 0px !important;
+	margin-left: 0px !important;
+
+}
+.exp_bread{
+	padding-left: 0px !important;
+		width: auto;
+	padding-right: 0px !important;	
+
+}
+.expand {    
+    padding-left: 7px;
+    padding-right: 0px;
+    padding-top: 13px;
+}
+.row.my-auto.static_hbanner {
+	padding-right: 15px;
+}
+.keyword-icon {    
+    left: 76%;
+
+}
+
+}
+@media only screen and (max-width: 768px){
+.navbar-dark .navbar-toggler-icon {
+	     background-image: url('../images-c/hamburger-menu-icon-png-white-10_2.jpg');
+		 width: 48px;
+		 height: 50px;
+		 background-size: contain;
+}
+.b-list{
+	padding-left: 0px !important;
+}
+}
+@media only screen and (max-width: 1025px){
+	.pos_fix{
+		display: none;
+	}
+	.list-f1 {
+    width: 100%;
+        max-width: 100%;
+}
+
+}
+@media screen and (min-width: 992px) and (max-width: 1440px){
+.pos_fix.fixed {
+    right: 20px;
+}
+}
+@media (max-width: 425px) {
+.l-ads{
+	padding: 0px;
+}
+.ladslist{
+	margin-right: 0px !important;
+	margin-left: 0px !important;
+}
+/*.lbanner_img{
+	width: 274px !important;
+}*/
+}
+@media screen and (min-width: 1920px) and (max-width: 1921px){
+	.pos_fix.fixed {
+    right: 308px;
+}
+}
+
+@media only screen and (min-width:577px){
+	.admin-mbl-view{
+		display: none;
+	}
+	.left-col-img{
+		margin:unset !important;
+	}
+	.left-col-img .img-fluid.top{
+		height: 100%;
+	}
+}
+@media only screen and (min-width: 320px) and (max-width: 768px){
+	.remove_mobile {
+		display: none;
+	}
+	.remove_space{
+		padding:0;
+		margin:0;
+	}
+	}
+@media only screen and (min-width: 320px) and (max-width: 768px){
+	.mbl-center {
+		order: 3;
+		text-align: center !important;
+	}
+	}
+	@media only screen and (min-width: 320px) and (max-width: 767px){
+		.mobile_view{
+			text-align: center;
+		}
+	}
+
+	@media only screen and (min-width: 320px) and (max-width: 767px){
+		span.poppins-18-reg.whole {
+			display: block;
+		}
+	}
+
+	@media only screen and (min-width: 320px) and (max-width: 767px){
+		.border-bottom.pb-2.mobile_view {
+			display: none;
+		}
+	}
+	@media only screen and (min-width: 768px){
+		
+		a.btn.btn-sm.uppercase.poppins-14-reg.change_pad.pl-0.pr-0 {
+			padding: 0 !important;
+		}
+		img.img-fluid.mx-auto.change_pad_1.d-block.p-1 {
+			padding: 0 !important;
+			height: 120px;
+
+		}
+	}
+	@media only screen and (min-width: 768px){
+		.image_change img{
+			/* width: 824px; */
+			height: 400px;
+		}
+	}
+	@media only screen and (min-width: 320px) and (max-width: 767px){
+        img.img-fluid.mx-auto.change_pad_1.d-block.p-1 {
+            height: 99px;
+            }
+		}
+	@media only screen and (min-width: 320px) and (max-width: 767px){
+			.image_change img{
+				/*width: 824px;*/
+				height: 330px;
+			}
+
+			.cls_mobile img {
+				
+				margin: 0px auto;
+			}
+
+			
+	}
+	
+

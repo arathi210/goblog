@@ -1,0 +1,130 @@
+{{ define "New" }}
+  {{ template "Header" }}
+    {{ template "Menu" }} 
+
+
+
+<style>
+   label#image-error {
+   position: absolute;
+   padding-top: 6%;
+   }
+   .col-md-12 {
+   max-width: 80%;
+   }
+   .error{
+   color:red;
+   }
+   .select2{
+   color:black;
+   }
+   input#exampleCheck1 {
+   margin-left: 28px;
+   }
+   .select2-container--default .select2-selection--multiple .select2-selection__choice {
+   background-color: #007bff !important;
+   }
+   .select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+   color: rgba(255,255,255,.7) !important;}
+   
+   span.select2-selection.select2-selection--single {
+    height: calc(2.25rem + 2px) !important;
+    border: 1px solid #ced4da !important;
+}
+</style>
+
+
+<div class="content-wrapper">
+   <!-- Content Header (Page header) -->
+   <div class="content-header">
+      <div class="container-fluid">
+         <div class="row mb-2">
+            <div class="col-sm-6" >
+               <h1 class="m-0 text-dark">Advertisement Business Management</h1>
+            </div>
+            <!-- /.col -->
+            <div class="col-sm-6">
+               <ol class="breadcrumb float-sm-right">
+                  <li class="breadcrumb-item"><a href="/">Home</a></li>
+                  <li class="breadcrumb-item active">Create Business Advertisement</li>
+               </ol>
+            </div>
+            <!-- /.col -->
+         </div>
+         <!-- /.row -->
+      </div>
+      <!-- /.container-fluid -->
+   </div>
+  
+   <section class="content">
+      <div class="container-fluid">
+         <div class="row">
+            <div class="col-md-12">
+               <div class="card card-primary">
+                  <div class="card-header">
+                     <h3 class="card-title">Create New  Blog</h3>
+                     <a class="nav-link backbtn" href="/" >
+                     <i class="fa fa-times"></i>
+                     </a>
+                  </div>
+                  <!-- /.card-header -->
+                  <!-- form start -->
+                  <form role="form" method="POST" action="insert" enctype ="multipart/form-data" id="myform">
+                    
+                     <div class="card-body">
+                        <div class="form-group"> 
+                           <label for="exampleInputEmail1">Title  <span class="mandatory">*</span></label>
+                           <input type="text" class="form-control" id="name" name="name" placeholder="Name" value="">
+                          
+                        </div>
+
+                         <div class="form-group"> 
+                           <label for="exampleInputEmail1">Image <span class="mandatory">*</span></label>
+                           <input class="form-control"type="file" name="myFile"  id="myFile" >
+                          
+                        </div>
+
+                        
+
+                        <div class="form-group"> 
+                           <label for="exampleInputEmail1">Description  <span class="mandatory">*</span></label>
+                           <textarea type="text" class="form-control" id="city" name="city" placeholder="Description" value=""></textarea>
+                          
+                        </div>
+
+                        <div class="form-group">
+                           <label for="exampleInputEmail1">Province<span style="color:red;">*</span></label>                           
+                           <select class="form-control form-control-bck-color-c lato-14-reg uppercase" id="province" name="province">
+                              <option value="">Select Province </option>
+                              {{ range . }}
+                              <option value="{{ .Id }}">{{ .Province }}</option>
+                               {{ end }}
+                            </select>
+                           
+                        </div>
+
+                        
+
+
+                        <div class="card-footer">
+                        <input type="submit" value="Add Employee" class="btn btn-primary" />
+                     </div>
+                  </form>
+               </div>
+            </div>
+         </div>
+      </div>
+   </section>
+</div>
+
+<script>
+   $('#province').on('click',function(){
+      
+     alert( $('#province').val());
+    });
+
+</script>
+
+                              
+  {{ template "Footer" }}
+{{ end }}

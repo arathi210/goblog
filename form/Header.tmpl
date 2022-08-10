@@ -1,0 +1,224 @@
+{{ define "Header" }}
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+  <meta charset="utf-8">
+
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Go Blog</title>
+
+  <!-- Tell the browser to be responsive to screen width -->
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+
+  <!-- Font Awesome -->
+
+  <link rel="stylesheet" href="/css/lugins/fontawesome-free/css/all.min.css">
+
+  <!-- Ionicons -->
+
+  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+
+  <!-- Theme style -->
+
+  <link rel="stylesheet" href="/css/dist/css/adminlte.min.css">
+
+  <link rel="stylesheet" href="/css/plugins/datatables-bs4/css/dataTables.bootstrap4.css">
+
+   <link rel="stylesheet" href="/css/dist/css/custom.css">
+<!-- cropper -->
+   <link rel="stylesheet" href="/css/cropper/css/cropper.css">
+   <link rel="stylesheet" href="/css/cropper/css/main.css">
+
+
+    <link rel="stylesheet" href="/css/plugins/summernote/summernote-bs4.css">
+<!-- multiple select -->
+<!-- Select2 -->
+  <link rel="stylesheet" href="/css/plugins/select2/css/select2.min.css">
+  <link rel="stylesheet" href="/css/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+
+<link rel="stylesheet" href="/css/Multiple-Select-Plugin/css/multi_select.css">
+
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" type="text/css" /> -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker.css" rel="stylesheet" type="text/css" />
+
+  <!-- Google Font: Source Sans Pro -->
+
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-jcrop/2.0.4/css/Jcrop.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.js"></script>
+
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script> -->
+<!-- <script src="https://cdn.ckeditor.com/ckeditor5/16.0.0/classic/ckeditor.js"></script> -->
+<!-- <script src="https://cdn.ckeditor.com/ckeditor5/12.3.1/classic/ckeditor.js"></script> -->
+
+    <script src="https://cdn.ckeditor.com/4.5.1/full/ckeditor.js"></script>
+
+
+
+  
+  <style type="text/css">
+  
+  
+  
+  
+    
+nav.pagination_lst {
+    float: right;
+
+}
+
+.pagination_lst ul li.active a {
+    color: #515151;
+    border: 1px solid #515151;
+    background: transparent;
+    border-radius: 35px;
+    width: 35px;
+    height: 35px;
+    line-height: 22px;
+}
+
+.pagination_lst ul li a {
+    border: 0px;
+    background: transparent;
+    font-family: Lato-Medium;
+    font-size: 18px;
+    color: #c4c4c4;
+    width: 35px;
+    line-height: 22px;
+    height: 35px;
+    border-radius: 35px;
+}
+
+.pagination_lst ul li:first-child a {
+    background: #007bff;
+    color: #fff;
+    width: 35px;
+    height: 35px;
+    border-radius: 35px;
+    font-size: 30px;
+    font-weight: normal;
+    padding-top: 2px;
+    text-align: center;
+    padding-left: 10px;
+}
+
+.pagination_lst ul li:last-child a {
+    background: #007bff;
+    color: #fff;
+    width: 35px;
+    height: 35px;
+    border-radius: 35px;
+    font-size: 30px;
+    font-weight: normal;
+    padding-top: 2px;
+    text-align: center;
+     padding-left: 10px;
+    margin-left: 10px;
+}
+
+nav.pagination_lst .pagination {
+    margin-bottom: 0px;
+
+}
+
+.pagination .active span
+{
+    color: #515151;
+    border: 1px solid #515151;
+    background: transparent;
+    border-radius: 35px;
+    width: 35px;
+    height: 35px;
+    line-height: 22px;
+
+}
+
+.pagination>li:first-child>span
+{
+    background: #a4d0f2;
+    color: #fff;
+    width: 35px;
+    height: 35px;
+    border-radius: 35px;
+    font-size: 30px;
+    font-weight: normal;
+    padding-top: 0px;
+    text-align: center;
+    padding-left: 9px;
+    margin-right: 10px;
+}
+
+.pagination>.disabled>span
+{
+    background: #a4d0f2!important;
+    color: #fff;
+    width: 35px;
+    height: 35px;
+    border-radius: 35px!important;
+    font-size: 30px;
+    font-weight: normal;
+    padding-top: 0px;
+    text-align: center;
+    padding-left: 11px;
+    margin-right: 10px;
+    margin-left: 10px; 
+}
+
+.pagination a {
+color: #007bc7;
+float: left;
+padding: 10px 16px;
+text-decoration: none;
+}
+
+
+/*search*/
+
+.search_filter {
+    padding: 0px 0px 30px;
+        display: flex;
+    justify-content: flex-end;
+}
+
+.search_filter .form-inline {
+    border: 1px solid #ccc;
+    width: 100%;
+    max-width: 300px;
+    border-radius: 30px;
+    padding: 6px;
+}
+
+.search_filter .form-inline input {
+    width: 90%;
+    padding: 10px;
+    border: 0px;
+    font-size: 18px;
+    color: #c4c4c4c4;
+    font-style: italic;
+    float: left;
+}
+
+.search_filter .form-inline i {
+    font-size: 18px;
+    color: #c4c4c4;
+    margin-top: 6px;
+}
+
+  </style>
+</head>
+
+<body class="hold-transition sidebar-mini sidebar-collapse">
+
+<div class="wrapper">
+
+
+{{ end }}
