@@ -1,4 +1,4 @@
-module car-rental
+module goblog
 
 go 1.18
 

@@ -2,28 +2,26 @@ package main
 
 import (
 	"database/sql"
+	"fmt"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"text/template"
-	 "io/ioutil"
-	 "fmt"
-	 _"github.com/go-sql-driver/mysql"
 )
 
 type Employee struct {
-	Id   int
-	Name string
-	City string
+	Id       int
+	Name     string
+	City     string
 	Province string
-	Image string 
+	Image    string
 }
 type Province struct {
-	Id   int
+	Id       int
 	Province string
-	
 }
-type Province_City struct{
-	Id int 
+type Province_City struct {
+	Id       int
 	Province string
 }
 
@@ -53,51 +51,47 @@ func Home(w http.ResponseWriter, r *http.Request) {
 	emp := Employee{}
 	res := []Employee{}
 	for selDB.Next() {
-		var id1 , province  int
-		var name, city ,image string
-		err = selDB.Scan(&id1, &name, &city,&province,&image)
+		var id1, province int
+		var name, city, image string
+		err = selDB.Scan(&id1, &name, &city, &province, &image)
 		if err != nil {
 			panic(err.Error())
 		}
 
+		//}
 
-		
-	//}
+		nId1 := province
+		selDB, err := db.Query("SELECT id, province_city FROM provinces WHERE id=?", nId1)
+		if err != nil {
+			panic(err.Error())
+		}
+		empProvince := Province{}
+		for selDB.Next() {
+			var id int
+			var province_city string
+			err = selDB.Scan(&id, &province_city)
+			if err != nil {
+				panic(err.Error())
+			}
 
-		nId1 := province 
-	selDB, err := db.Query("SELECT id, province_city FROM provinces WHERE id=?",nId1)
-	if err != nil {
-		panic(err.Error())
+			emp.Id = id1
+			emp.Name = name
+			emp.City = city
+			emp.Province = province_city
+			emp.Image = image
+			res = append(res, emp)
+
+			empProvince.Province = province_city
+
+			//res = append(res, empProvince)
+
+		}
 	}
-	empProvince := Province{}
-	for selDB.Next() {
-		var id int
-		var province_city string
-		err = selDB.Scan(&id, &province_city)
-		if err != nil {
-			panic(err.Error())
-		}
-
-		emp.Id = id1
-		emp.Name = name
-		emp.City = city
-		emp.Province = province_city
-		emp.Image = image
-		res = append(res, emp)
-		
-		empProvince.Province = province_city
-
-		//res = append(res, empProvince)
-		
-	}}
-
 
 	tmpl.ExecuteTemplate(w, "Home", res)
 	defer db.Close()
-	
+
 }
-
-
 
 func Blog(w http.ResponseWriter, r *http.Request) {
 
@@ -109,53 +103,51 @@ func Blog(w http.ResponseWriter, r *http.Request) {
 	emp := Employee{}
 	res := []Employee{}
 	for selDB.Next() {
-		var id1 , province  int
-		var name, city ,image string
-		err = selDB.Scan(&id1, &name, &city,&province,&image)
+		var id1, province int
+		var name, city, image string
+		err = selDB.Scan(&id1, &name, &city, &province, &image)
 		if err != nil {
 			panic(err.Error())
 		}
 
+		//}
 
-		
-	//}
+		nId1 := province
+		selDB, err := db.Query("SELECT id, province_city FROM provinces WHERE id=?", nId1)
+		if err != nil {
+			panic(err.Error())
+		}
+		empProvince := Province{}
+		for selDB.Next() {
+			var id int
+			var province_city string
+			err = selDB.Scan(&id, &province_city)
+			if err != nil {
+				panic(err.Error())
+			}
 
-		nId1 := province 
-	selDB, err := db.Query("SELECT id, province_city FROM provinces WHERE id=?",nId1)
-	if err != nil {
-		panic(err.Error())
+			emp.Id = id1
+			emp.Name = name
+			emp.City = city
+			emp.Province = province_city
+			emp.Image = image
+			res = append(res, emp)
+
+			empProvince.Province = province_city
+
+			//res = append(res, empProvince)
+
+		}
 	}
-	empProvince := Province{}
-	for selDB.Next() {
-		var id int
-		var province_city string
-		err = selDB.Scan(&id, &province_city)
-		if err != nil {
-			panic(err.Error())
-		}
-
-		emp.Id = id1
-		emp.Name = name
-		emp.City = city
-		emp.Province = province_city
-		emp.Image = image
-		res = append(res, emp)
-		
-		empProvince.Province = province_city
-
-		//res = append(res, empProvince)
-		
-	}}
-
 
 	tmpl.ExecuteTemplate(w, "Blog", res)
 	defer db.Close()
-	
+
 }
 
 func BlogSingle(w http.ResponseWriter, r *http.Request) {
 
-db := dbConn()
+	db := dbConn()
 	nId := r.URL.Query().Get("id")
 	selDB, err := db.Query("SELECT id,name,description,image FROM Employee WHERE id=?", nId)
 	if err != nil {
@@ -164,8 +156,8 @@ db := dbConn()
 	emp := Employee{}
 	for selDB.Next() {
 		var id int
-		var name, city,image string
-		err = selDB.Scan(&id, &name, &city,&image)
+		var name, city, image string
+		err = selDB.Scan(&id, &name, &city, &image)
 		if err != nil {
 			panic(err.Error())
 		}
@@ -177,7 +169,7 @@ db := dbConn()
 	}
 	tmpl.ExecuteTemplate(w, "BlogSingle", emp)
 	defer db.Close()
-	
+
 }
 
 func Index(w http.ResponseWriter, r *http.Request) {
@@ -189,44 +181,42 @@ func Index(w http.ResponseWriter, r *http.Request) {
 	emp := Employee{}
 	res := []Employee{}
 	for selDB.Next() {
-		var id1 , province  int
-		var name, city ,image string
-		err = selDB.Scan(&id1, &name, &city,&province,&image)
+		var id1, province int
+		var name, city, image string
+		err = selDB.Scan(&id1, &name, &city, &province, &image)
 		if err != nil {
 			panic(err.Error())
 		}
 
+		//}
 
-		
-	//}
+		nId1 := province
+		selDB, err := db.Query("SELECT id, province_city FROM provinces WHERE id=?", nId1)
+		if err != nil {
+			panic(err.Error())
+		}
+		empProvince := Province{}
+		for selDB.Next() {
+			var id int
+			var province_city string
+			err = selDB.Scan(&id, &province_city)
+			if err != nil {
+				panic(err.Error())
+			}
 
-		nId1 := province 
-	selDB, err := db.Query("SELECT id, province_city FROM provinces WHERE id=?",nId1)
-	if err != nil {
-		panic(err.Error())
+			emp.Id = id1
+			emp.Name = name
+			emp.City = city
+			emp.Province = province_city
+			emp.Image = image
+			res = append(res, emp)
+
+			empProvince.Province = province_city
+
+			//res = append(res, empProvince)
+
+		}
 	}
-	empProvince := Province{}
-	for selDB.Next() {
-		var id int
-		var province_city string
-		err = selDB.Scan(&id, &province_city)
-		if err != nil {
-			panic(err.Error())
-		}
-
-		emp.Id = id1
-		emp.Name = name
-		emp.City = city
-		emp.Province = province_city
-		emp.Image = image
-		res = append(res, emp)
-		
-		empProvince.Province = province_city
-
-		//res = append(res, empProvince)
-		
-	}}
-
 
 	tmpl.ExecuteTemplate(w, "Index", res)
 	defer db.Close()
@@ -273,7 +263,7 @@ func New(w http.ResponseWriter, r *http.Request) {
 		}
 		emp.Id = id
 		emp.Province = province_city
-		
+
 		res = append(res, emp)
 	}
 	tmpl.ExecuteTemplate(w, "New", res)
@@ -290,34 +280,33 @@ func Edit(w http.ResponseWriter, r *http.Request) {
 	}
 	emp := Employee{}
 	for selDB.Next() {
-		var id , province int
+		var id, province int
 		var name, city, image string
 		err = selDB.Scan(&id, &name, &city, &province, &image)
 		if err != nil {
 			panic(err.Error())
 		}
 
-			nId1 := province 
-	selDB, err := db.Query("SELECT id, province_city FROM provinces WHERE id=?",nId1)
-	if err != nil {
-		panic(err.Error())
-	}
-	//empProvince := Province{}
-	for selDB.Next() {
-		var id1 int
-		var province_city string
-		err = selDB.Scan(&id1, &province_city)
+		nId1 := province
+		selDB, err := db.Query("SELECT id, province_city FROM provinces WHERE id=?", nId1)
 		if err != nil {
 			panic(err.Error())
 		}
-		emp.Id = id
-		emp.Name = name
-		emp.City = city
-		emp.Image = image
-		emp.Province = province_city
+		//empProvince := Province{}
+		for selDB.Next() {
+			var id1 int
+			var province_city string
+			err = selDB.Scan(&id1, &province_city)
+			if err != nil {
+				panic(err.Error())
+			}
+			emp.Id = id
+			emp.Name = name
+			emp.City = city
+			emp.Image = image
+			emp.Province = province_city
+		}
 	}
-}
-
 
 	// empProvince := Province{}
 	// resProvince := []Province{}
@@ -330,7 +319,7 @@ func Edit(w http.ResponseWriter, r *http.Request) {
 	// 	}
 	// 	empProvince.Id = id
 	// 	empProvince.Province = province_city
-		
+
 	// 	emp = append(resProvince, empProvince)
 	// }
 
@@ -343,37 +332,33 @@ func Insert(w http.ResponseWriter, r *http.Request) {
 	db := dbConn()
 	if r.Method == "POST" {
 
-
 		r.ParseMultipartForm(10 << 20)
 
+		file, handler, err1 := r.FormFile("myFile")
+		if err1 != nil {
+			fmt.Println("Error Retrieving the File")
+			fmt.Println(err1)
+			return
+		}
+		defer file.Close()
+		fmt.Printf("File Size: %+v\n", handler.Size)
 
-
-	file, handler , err1 := r.FormFile("myFile")
-    if err1 != nil {
-        fmt.Println("Error Retrieving the File")
-        fmt.Println(err1)
-        return
-    }
-    defer file.Close()
-    fmt.Printf("File Size: %+v\n", handler.Size)
-
-    tempFile,  err2 := ioutil.TempFile("public/images", "upload-*.png")
-    if err2 != nil {
-        fmt.Println(err2)
-    }
-    //fmt.Printf("File Name: %+v\n",tempFile.Name())
-defer tempFile.Close()
- fmt.Printf("File Name: %+v\n",tempFile.Name())
-fileBytes, err3 := ioutil.ReadAll(file)
-    if err3 != nil {
-        fmt.Println(err3)
-    }
-tempFile.Write(fileBytes)
-
+		tempFile, err2 := ioutil.TempFile("public/images", "upload-*.png")
+		if err2 != nil {
+			fmt.Println(err2)
+		}
+		//fmt.Printf("File Name: %+v\n",tempFile.Name())
+		defer tempFile.Close()
+		fmt.Printf("File Name: %+v\n", tempFile.Name())
+		fileBytes, err3 := ioutil.ReadAll(file)
+		if err3 != nil {
+			fmt.Println(err3)
+		}
+		tempFile.Write(fileBytes)
 
 		name := r.FormValue("name")
 		city := r.FormValue("city")
-		
+
 		province := r.FormValue("province")
 		//image := "test1"
 		image := tempFile.Name()
@@ -381,8 +366,8 @@ tempFile.Write(fileBytes)
 		if err != nil {
 			panic(err.Error())
 		}
-		insForm.Exec(name, city,province,image)
-		log.Println("INSERT: Name: " + name + " | City: " + city + " | Province: " + province )
+		insForm.Exec(name, city, province, image)
+		log.Println("INSERT: Name: " + name + " | City: " + city + " | Province: " + province)
 	}
 
 	defer db.Close()
@@ -392,51 +377,43 @@ tempFile.Write(fileBytes)
 func Update(w http.ResponseWriter, r *http.Request) {
 	db := dbConn()
 	if r.Method == "POST" {
-		
-		
 
-r.ParseMultipartForm(10 << 20)
+		r.ParseMultipartForm(10 << 20)
 
-	file, handler , err1 := r.FormFile("myFile")
-    if err1 != nil {
-        fmt.Println("Error Retrieving the File")
-        fmt.Println(err1)
-        return
-    }
-    defer file.Close()
-    fmt.Printf("File Size: %+v\n", handler.Size)
+		file, handler, err1 := r.FormFile("myFile")
+		if err1 != nil {
+			fmt.Println("Error Retrieving the File")
+			fmt.Println(err1)
+			return
+		}
+		defer file.Close()
+		fmt.Printf("File Size: %+v\n", handler.Size)
 
-    tempFile,  err2 := ioutil.TempFile("public/images", "upload-*.png")
-    if err2 != nil {
-        fmt.Println(err2)
-    }
-    //fmt.Printf("File Name: %+v\n",tempFile.Name())
-defer tempFile.Close()
- fmt.Printf("File Name: %+v\n",tempFile.Name())
-fileBytes, err3 := ioutil.ReadAll(file)
-    if err3 != nil {
-        fmt.Println(err3)
-    }
-tempFile.Write(fileBytes)
-image := tempFile.Name()
-
-
-
-
+		tempFile, err2 := ioutil.TempFile("public/images", "upload-*.png")
+		if err2 != nil {
+			fmt.Println(err2)
+		}
+		//fmt.Printf("File Name: %+v\n",tempFile.Name())
+		defer tempFile.Close()
+		fmt.Printf("File Name: %+v\n", tempFile.Name())
+		fileBytes, err3 := ioutil.ReadAll(file)
+		if err3 != nil {
+			fmt.Println(err3)
+		}
+		tempFile.Write(fileBytes)
+		image := tempFile.Name()
 
 		name := r.FormValue("name")
 		city := r.FormValue("city")
-		
+
 		id := r.FormValue("uid")
-
-
 
 		insForm, err := db.Prepare("UPDATE Employee SET name=?, description=?, image=? WHERE id=?")
 		if err != nil {
 			panic(err.Error())
 		}
 		insForm.Exec(name, city, image, id)
-		log.Println("UPDATE: Name: " + name + " | City: " + city + "| Image: " +image)
+		log.Println("UPDATE: Name: " + name + " | City: " + city + "| Image: " + image)
 	}
 	defer db.Close()
 	http.Redirect(w, r, "/", 301)
@@ -458,7 +435,7 @@ func Delete(w http.ResponseWriter, r *http.Request) {
 func City(w http.ResponseWriter, r *http.Request) {
 	db := dbConn()
 	cat := r.URL.Query().Get("cat")
-	selDB, err := db.Query("SELECT id , province_city FROM provinces WHERE parent_id=?",cat)
+	selDB, err := db.Query("SELECT id , province_city FROM provinces WHERE parent_id=?", cat)
 	if err != nil {
 		panic(err.Error())
 	}
@@ -473,15 +450,13 @@ func City(w http.ResponseWriter, r *http.Request) {
 		}
 		emp.Id = id
 		emp.Province = province_city
-		
+
 		res = append(res, emp)
 	}
 	//return json_encode(res)
 	defer db.Close()
 	//tmpl.ExecuteTemplate(w, "New", res)
 }
-
-
 
 func main() {
 	//fs := http.FileServer(http.Dir("/css/"))
