@@ -7,6 +7,8 @@ import (
 	"log"
 	"net/http"
 	"text/template"
+
+	_ "github.com/go-sql-driver/mysql"
 )
 
 type Employee struct {
@@ -474,7 +476,7 @@ func main() {
 	http.Handle("/public/",
 		http.StripPrefix("/public/", http.FileServer(http.Dir("public"))))
 
-	http.HandleFunc("/", Index)
+	http.HandleFunc("/index", Index)
 	http.HandleFunc("/home", Home)
 	http.HandleFunc("/blog", Blog)
 	http.HandleFunc("/blogSingle", BlogSingle)
