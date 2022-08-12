@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
 	"text/template"
 )
 
@@ -485,5 +486,10 @@ func main() {
 	http.HandleFunc("/update", Update)
 	http.HandleFunc("/delete", Delete)
 	http.HandleFunc("/city", City)
-	http.ListenAndServe(":8380", nil)
+	//http.ListenAndServe(":8380", nil)
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8380" // Default port if not specified
+	}
+	http.ListenAndServe(":"+port, nil)
 }
