@@ -46,53 +46,10 @@ var tmpl = template.Must(template.ParseGlob("form/*"))
 
 func Home(w http.ResponseWriter, r *http.Request) {
 
-	db := dbConn()
-	selDB, err := db.Query("SELECT * FROM Employee ORDER BY id DESC")
-	if err != nil {
-		panic(err.Error())
-	}
-	emp := Employee{}
-	res := []Employee{}
-	for selDB.Next() {
-		var id1, province int
-		var name, city, image string
-		err = selDB.Scan(&id1, &name, &city, &province, &image)
-		if err != nil {
-			panic(err.Error())
-		}
-
-		//}
-
-		nId1 := province
-		selDB, err := db.Query("SELECT id, province_city FROM provinces WHERE id=?", nId1)
-		if err != nil {
-			panic(err.Error())
-		}
-		empProvince := Province{}
-		for selDB.Next() {
-			var id int
-			var province_city string
-			err = selDB.Scan(&id, &province_city)
-			if err != nil {
-				panic(err.Error())
-			}
-
-			emp.Id = id1
-			emp.Name = name
-			emp.City = city
-			emp.Province = province_city
-			emp.Image = image
-			res = append(res, emp)
-
-			empProvince.Province = province_city
-
-			//res = append(res, empProvince)
-
-		}
-	}
+res := 0;
 
 	tmpl.ExecuteTemplate(w, "Home", res)
-	defer db.Close()
+	
 
 }
 
@@ -435,31 +392,7 @@ func Delete(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, "/", 301)
 }
 
-func City(w http.ResponseWriter, r *http.Request) {
-	db := dbConn()
-	cat := r.URL.Query().Get("cat")
-	selDB, err := db.Query("SELECT id , province_city FROM provinces WHERE parent_id=?", cat)
-	if err != nil {
-		panic(err.Error())
-	}
-	emp := Province_City{}
-	res := []Province_City{}
-	for selDB.Next() {
-		var id int
-		var province_city string
-		err = selDB.Scan(&id, &province_city)
-		if err != nil {
-			panic(err.Error())
-		}
-		emp.Id = id
-		emp.Province = province_city
 
-		res = append(res, emp)
-	}
-	//return json_encode(res)
-	defer db.Close()
-	//tmpl.ExecuteTemplate(w, "New", res)
-}
 
 func main() {
 	//fs := http.FileServer(http.Dir("/css/"))
@@ -487,7 +420,7 @@ func main() {
 	http.HandleFunc("/insert", Insert)
 	http.HandleFunc("/update", Update)
 	http.HandleFunc("/delete", Delete)
-	http.HandleFunc("/city", City)
+	
 	//http.ListenAndServe(":8380", nil)
 	port := os.Getenv("PORT")
 	if port == "" {
