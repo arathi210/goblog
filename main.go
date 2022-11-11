@@ -9,7 +9,18 @@ import (
 	"os"
 	"text/template"
 
+	"golang.org/x/crypto/bcrypt"
+
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/gorilla/sessions"
+
+	"tawesoft.co.uk/go/dialog"
+)
+
+var (
+	// key must be 16, 24 or 32 bytes long (AES-128, AES-192 or AES-256)
+	key   = []byte("super-secret-key")
+	store = sessions.NewCookieStore(key)
 )
 
 type Employee struct {
@@ -18,6 +29,12 @@ type Employee struct {
 	City     string
 	Province string
 	Image    string
+}
+type User struct {
+	Id       int
+	Name     string
+	Username string
+	Password string
 }
 type Province struct {
 	Id       int
@@ -46,10 +63,9 @@ var tmpl = template.Must(template.ParseGlob("form/*"))
 
 func Home(w http.ResponseWriter, r *http.Request) {
 
-res := 0;
+	res := 0
 
 	tmpl.ExecuteTemplate(w, "Home", res)
-	
 
 }
 
@@ -133,6 +149,16 @@ func BlogSingle(w http.ResponseWriter, r *http.Request) {
 }
 
 func Index(w http.ResponseWriter, r *http.Request) {
+	session, _ := store.Get(r, "cookie-name")
+
+	// Check if user is authenticated
+	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
+
+		http.Error(w, "Forbidden", http.StatusForbidden)
+		http.Redirect(w, r, "/login", 301)
+		return
+	}
+
 	db := dbConn()
 	selDB, err := db.Query("SELECT * FROM Employee ORDER BY id DESC")
 	if err != nil {
@@ -183,6 +209,15 @@ func Index(w http.ResponseWriter, r *http.Request) {
 }
 
 func Show(w http.ResponseWriter, r *http.Request) {
+	session, _ := store.Get(r, "cookie-name")
+
+	// Check if user is authenticated
+	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
+
+		http.Error(w, "Forbidden", http.StatusForbidden)
+		http.Redirect(w, r, "/login", 301)
+		return
+	}
 	db := dbConn()
 	nId := r.URL.Query().Get("id")
 	selDB, err := db.Query("SELECT id,name,description FROM Employee WHERE id=?", nId)
@@ -207,6 +242,15 @@ func Show(w http.ResponseWriter, r *http.Request) {
 }
 
 func New(w http.ResponseWriter, r *http.Request) {
+	session, _ := store.Get(r, "cookie-name")
+
+	// Check if user is authenticated
+	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
+
+		http.Error(w, "Forbidden", http.StatusForbidden)
+		http.Redirect(w, r, "/login", 301)
+		return
+	}
 	db := dbConn()
 	selDB, err := db.Query("SELECT id , province_city FROM provinces WHERE parent_id=0")
 	if err != nil {
@@ -232,6 +276,15 @@ func New(w http.ResponseWriter, r *http.Request) {
 }
 
 func Edit(w http.ResponseWriter, r *http.Request) {
+	session, _ := store.Get(r, "cookie-name")
+
+	// Check if user is authenticated
+	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
+
+		http.Error(w, "Forbidden", http.StatusForbidden)
+		http.Redirect(w, r, "/login", 301)
+		return
+	}
 	db := dbConn()
 	nId := r.URL.Query().Get("id")
 	selDB, err := db.Query("SELECT id,name,description,province,image FROM Employee WHERE id=?", nId)
@@ -289,6 +342,15 @@ func Edit(w http.ResponseWriter, r *http.Request) {
 }
 
 func Insert(w http.ResponseWriter, r *http.Request) {
+	session, _ := store.Get(r, "cookie-name")
+
+	// Check if user is authenticated
+	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
+
+		http.Error(w, "Forbidden", http.StatusForbidden)
+		http.Redirect(w, r, "/login", 301)
+		return
+	}
 	db := dbConn()
 	if r.Method == "POST" {
 
@@ -331,10 +393,19 @@ func Insert(w http.ResponseWriter, r *http.Request) {
 	}
 
 	defer db.Close()
-	http.Redirect(w, r, "/", 301)
+	http.Redirect(w, r, "/index", 301)
 }
 
 func Update(w http.ResponseWriter, r *http.Request) {
+	session, _ := store.Get(r, "cookie-name")
+
+	// Check if user is authenticated
+	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
+
+		http.Error(w, "Forbidden", http.StatusForbidden)
+		http.Redirect(w, r, "/login", 301)
+		return
+	}
 	db := dbConn()
 	if r.Method == "POST" {
 
@@ -376,10 +447,19 @@ func Update(w http.ResponseWriter, r *http.Request) {
 		log.Println("UPDATE: Name: " + name + " | City: " + city + "| Image: " + image)
 	}
 	defer db.Close()
-	http.Redirect(w, r, "/", 301)
+	http.Redirect(w, r, "/index", 301)
 }
 
 func Delete(w http.ResponseWriter, r *http.Request) {
+	session, _ := store.Get(r, "cookie-name")
+
+	// Check if user is authenticated
+	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
+
+		http.Error(w, "Forbidden", http.StatusForbidden)
+		http.Redirect(w, r, "/login", 301)
+		return
+	}
 	db := dbConn()
 	emp := r.URL.Query().Get("id")
 	delForm, err := db.Prepare("DELETE FROM Employee WHERE id=?")
@@ -389,10 +469,173 @@ func Delete(w http.ResponseWriter, r *http.Request) {
 	delForm.Exec(emp)
 	log.Println("DELETE")
 	defer db.Close()
-	http.Redirect(w, r, "/", 301)
+	http.Redirect(w, r, "/index", 301)
+}
+func LoginPage(w http.ResponseWriter, r *http.Request) {
+
+	res := 0
+
+	tmpl.ExecuteTemplate(w, "Login", res)
+
+}
+func Logincheck(res http.ResponseWriter, req *http.Request) {
+	db := dbConn()
+	if req.Method != "POST" {
+		http.ServeFile(res, req, "login.html")
+		return
+	}
+
+	username := req.FormValue("username")
+	password := req.FormValue("password")
+
+	var databaseUsername string
+	var databasePassword string
+
+	err := db.QueryRow("SELECT username, password FROM users WHERE username=?", username).Scan(&databaseUsername, &databasePassword)
+
+	if err != nil {
+
+		dialog.Alert("Username Incorrect")
+		http.Redirect(res, req, "/login", 301)
+		return
+	}
+
+	err = bcrypt.CompareHashAndPassword([]byte(databasePassword), []byte(password))
+	if err != nil {
+		dialog.Alert("Password incorrect")
+		http.Redirect(res, req, "/login", 301)
+		return
+	}
+
+	selDB, err := db.Query("SELECT name  FROM users  WHERE username=?", username)
+	if err != nil {
+		panic(err.Error())
+	}
+	user := User{}
+	for selDB.Next() {
+
+		var name string
+		err = selDB.Scan(&name)
+		if err != nil {
+			panic(err.Error())
+		}
+
+		user.Name = name
+
+	}
+	session, _ := store.Get(req, "cookie-name")
+	session1, _ := store.Get(req, "username")
+	// Authentication goes here
+	// ...
+
+	// Set user as authenticated
+	session.Values["authenticated"] = true
+	session1.Values["username"] = user
+	session.Save(req, res)
+	session1.Save(req, res)
+	defer db.Close()
+	//res.Write([]byte("Hello" + databaseUsername))
+	http.Redirect(res, req, "/dashboard", 301)
+
 }
 
+func Dashboard(w http.ResponseWriter, r *http.Request) {
+	session, _ := store.Get(r, "cookie-name")
 
+	// Check if user is authenticated
+	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
+
+		http.Error(w, "Forbidden", http.StatusForbidden)
+		http.Redirect(w, r, "/login", 301)
+		return
+	}
+	//userID, _ := store.Get(r, "username")
+	userID := "Admin"
+
+	// store data (here in a map[string]interface{})
+	data := make(map[string]interface{})
+	data["userID"] = userID
+	//res := 0
+
+	tmpl.ExecuteTemplate(w, "Dashboard", data)
+
+}
+func Register(w http.ResponseWriter, r *http.Request) {
+
+	res := 0
+
+	tmpl.ExecuteTemplate(w, "Register", res)
+
+}
+func RegisterUser(res http.ResponseWriter, req *http.Request) {
+	db := dbConn()
+	if req.Method != "POST" {
+		//http.ServeFile(res, req, "signup.html")
+		tmpl.ExecuteTemplate(res, "Register", res)
+		return
+	}
+	name := req.FormValue("name")
+	username := req.FormValue("username")
+	password := req.FormValue("password")
+
+	var user string
+
+	err := db.QueryRow("SELECT username FROM users WHERE username=?", username).Scan(&user)
+
+	switch {
+	case err == sql.ErrNoRows:
+		hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+		if err != nil {
+			http.Error(res, "Server error, unable to create your account.", 500)
+			return
+		}
+
+		_, err = db.Exec("INSERT INTO users(name,username, password) VALUES(?, ?, ?)", name, username, hashedPassword)
+		if err != nil {
+			http.Error(res, "Server error, unable to create your account.", 500)
+			return
+		}
+		defer db.Close()
+		//res.Write([]byte("User created!"))
+		dialog.Alert("User created!")
+		http.Redirect(res, req, "/register", 301)
+		return
+
+	case err != nil:
+		http.Error(res, "Server error, unable to create your account.", 500)
+		return
+	default:
+		http.Redirect(res, req, "/register", 301)
+
+	}
+
+}
+func Logout(res http.ResponseWriter, req *http.Request) {
+
+	//res := 0
+	session, _ := store.Get(req, "cookie-name")
+
+	// Revoke users authentication
+	session.Values["authenticated"] = false
+	session.Save(req, res)
+
+	http.Redirect(res, req, "/login", 301)
+
+}
+
+func nav(res http.ResponseWriter, req *http.Request) {
+	// use a lib like gorilla sessions
+	//session, _ := store.Get(req, "cookie-name")
+	//userID, _ := store.Get(req, "cookie-name")
+
+	// store data (here in a map[string]interface{})
+	data := make(map[string]interface{})
+	data["userID"] = "admin"
+
+	// Send this data to the view
+	//t.Execute(w, data) // Sets the . variable in templates
+	tmpl.ExecuteTemplate(res, "Menu", data)
+}
 
 func main() {
 	//fs := http.FileServer(http.Dir("/css/"))
@@ -411,7 +654,7 @@ func main() {
 		http.StripPrefix("/public/", http.FileServer(http.Dir("public"))))
 
 	http.HandleFunc("/index", Index)
-	http.HandleFunc("/home", Home)
+	http.HandleFunc("/", Home)
 	http.HandleFunc("/blog", Blog)
 	http.HandleFunc("/blogSingle", BlogSingle)
 	http.HandleFunc("/show", Show)
@@ -420,7 +663,14 @@ func main() {
 	http.HandleFunc("/insert", Insert)
 	http.HandleFunc("/update", Update)
 	http.HandleFunc("/delete", Delete)
-	
+	http.HandleFunc("/login", LoginPage)
+	http.HandleFunc("/login-check", Logincheck)
+	http.HandleFunc("/dashboard", Dashboard)
+	http.HandleFunc("/register", Register)
+	http.HandleFunc("/register-user", RegisterUser)
+	http.HandleFunc("/logout", Logout)
+	http.HandleFunc("/nav", nav)
+
 	//http.ListenAndServe(":8380", nil)
 	port := os.Getenv("PORT")
 	if port == "" {

@@ -1,0 +1,50 @@
+{{ define "Dashboard" }}
+  {{ template "Header" }}
+    {{ template "Menu"  }}
+
+<style>
+
+      .col-md-12 {
+
+          max-width: 80%;
+
+      }
+
+      input#exampleCheck1 {
+
+          margin-left: 28px;
+
+      }
+</style>
+
+<div class="content-wrapper">
+
+    <!-- Content Header (Page header) -->
+
+    <div class="content-header">
+
+      <div class="container-fluid">
+
+        <div class="row mb-2">
+
+          <div class="col-sm-6" style="max-width: 30%;">
+
+            <h1 class="m-0 text-dark">Welcome {{ .username }}</h1>
+
+          </div><!-- /.col -->
+
+
+
+     
+
+        </div><!-- /.row -->
+
+      </div><!-- /.container-fluid -->
+
+    </div>
+
+
+  </div>
+
+  {{ template "Footer" }}
+{{ end }}

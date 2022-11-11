@@ -37,32 +37,29 @@
 
        <li class="nav-item">
       <div class="user-panel mt-3 pb-3 mb-3 d-flex profile">
-<!--         <div class="image">
-          @if(Auth::user()->image !="")
-
-              <img src="" class="img-circle elevation-2" alt="User Image">
-
-          @else
-
-              <img src="" width="120px" height="120px" style=" border-radius: 50%;"/>
-
-          @endif
-          
-        </div> -->
+       
         <div class="info prf_name">
           <a href="" class="d-block"></a>
         </div>
       </div>
       </li>
+             <div class="info prf_name">
+          <a href="" class="d-block">{{ .userID }}</a>
+        </div>
+      
+      </li>
        <li class="nav-item">
 
-        <a class="nav-link" href="" onclick="return logout(event);" id="logout">
+        <a class="nav-link"  onclick="return logout(event);" id="logout">
 
-          <i class="fas fa-sign-out-alt"></i>
+          <i class="fas fa-sign-out-alt"><span>Logout</span></i>
           
 
         </a>
-         
+          <form id="logout-form" action="logout" method="POST"
+       style="display: none;">
+  
+   </form>
 
       </li>
 
@@ -106,7 +103,7 @@
                   </a>
                   <ul class="nav nav-treeview">
                       <li class="nav-item">
-                        <a href="/">
+                        <a href="/index">
                             <i class="far fa-circle nav-icon"></i>
                             <p>Blog List</p>
                         </a>
