@@ -72,7 +72,7 @@ func Home(w http.ResponseWriter, r *http.Request) {
 func Blog(w http.ResponseWriter, r *http.Request) {
 
 	db := dbConn()
-	selDB, err := db.Query("SELECT * FROM Employee ORDER BY id DESC")
+	selDB, err := db.Query("SELECT * FROM employee ORDER BY id DESC")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -125,7 +125,7 @@ func BlogSingle(w http.ResponseWriter, r *http.Request) {
 
 	db := dbConn()
 	nId := r.URL.Query().Get("id")
-	selDB, err := db.Query("SELECT id,name,description,image FROM Employee WHERE id=?", nId)
+	selDB, err := db.Query("SELECT id,name,description,image FROM employee WHERE id=?", nId)
 	if err != nil {
 		panic(err.Error())
 	}
@@ -160,7 +160,7 @@ func Index(w http.ResponseWriter, r *http.Request) {
 	}
 
 	db := dbConn()
-	selDB, err := db.Query("SELECT * FROM Employee ORDER BY id DESC")
+	selDB, err := db.Query("SELECT * FROM employee ORDER BY id DESC")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -220,7 +220,7 @@ func Show(w http.ResponseWriter, r *http.Request) {
 	}
 	db := dbConn()
 	nId := r.URL.Query().Get("id")
-	selDB, err := db.Query("SELECT id,name,description FROM Employee WHERE id=?", nId)
+	selDB, err := db.Query("SELECT id,name,description FROM employee WHERE id=?", nId)
 	if err != nil {
 		panic(err.Error())
 	}
@@ -287,7 +287,7 @@ func Edit(w http.ResponseWriter, r *http.Request) {
 	}
 	db := dbConn()
 	nId := r.URL.Query().Get("id")
-	selDB, err := db.Query("SELECT id,name,description,province,image FROM Employee WHERE id=?", nId)
+	selDB, err := db.Query("SELECT id,name,description,province,image FROM employee WHERE id=?", nId)
 	if err != nil {
 		panic(err.Error())
 	}
@@ -384,7 +384,7 @@ func Insert(w http.ResponseWriter, r *http.Request) {
 		province := r.FormValue("province")
 		//image := "test1"
 		image := tempFile.Name()
-		insForm, err := db.Prepare("INSERT INTO Employee(name, description,province,image) VALUES(?,?,?,?)")
+		insForm, err := db.Prepare("INSERT INTO employee(name, description,province,image) VALUES(?,?,?,?)")
 		if err != nil {
 			panic(err.Error())
 		}
@@ -439,7 +439,7 @@ func Update(w http.ResponseWriter, r *http.Request) {
 
 		id := r.FormValue("uid")
 
-		insForm, err := db.Prepare("UPDATE Employee SET name=?, description=?, image=? WHERE id=?")
+		insForm, err := db.Prepare("UPDATE employee SET name=?, description=?, image=? WHERE id=?")
 		if err != nil {
 			panic(err.Error())
 		}
@@ -462,7 +462,7 @@ func Delete(w http.ResponseWriter, r *http.Request) {
 	}
 	db := dbConn()
 	emp := r.URL.Query().Get("id")
-	delForm, err := db.Prepare("DELETE FROM Employee WHERE id=?")
+	delForm, err := db.Prepare("DELETE FROM employee WHERE id=?")
 	if err != nil {
 		panic(err.Error())
 	}
