@@ -47,9 +47,9 @@ type Province_City struct {
 
 func dbConn() (db *sql.DB) {
 	dbDriver := "mysql"
-	dbUser := "root"
-	dbPass := ""
-	dbName := "goblog"
+	dbUser := "go-test"
+	dbPass := "8NxLtOLiag8d7bY"
+	dbName := "go_test"
 	db, err := sql.Open(dbDriver, dbUser+":"+dbPass+"@/"+dbName)
 	if err != nil {
 		panic(err.Error())
