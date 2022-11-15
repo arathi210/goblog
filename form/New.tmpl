@@ -3,7 +3,7 @@
     {{ template "Menu" }} 
 
 
-
+<script src="https://cdn.ckeditor.com/4.14.1/full/ckeditor.js"></script>
 <style>
    label#image-error {
    position: absolute;
@@ -89,7 +89,9 @@
                         <div class="form-group"> 
                            <label for="exampleInputEmail1">Description  <span class="mandatory">*</span></label>
                            <textarea type="text" class="form-control" id="city" name="city" placeholder="Description" value=""></textarea>
-                          
+                           <script>
+                                CKEDITOR.replace('city');
+                           </script>
                         </div>
 
                         <div class="form-group">
